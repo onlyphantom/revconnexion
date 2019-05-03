@@ -1,0 +1,97 @@
+# define /api/people
+swagger: "2.0"
+info:
+  description: The swagger file that goes with RevConnexion
+  version: "1.0.0"
+  title: Swagger REST API for RevConnexion
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+basePath: "/api"
+
+# Paths supported by the application
+paths:
+  /reviews:
+    get:
+      operationId: "reviews.read_all" # defines the Python import path/function that will respond to the GET
+      tags:
+        - Reviews
+      summary: "Read entire list of reviews"
+      description: "Read the list of reviews"
+      parameters:
+        - name: length
+          in: query # path: (/reviews/{length}) or query: (/reviews?length=2)
+          type: integer
+          description: Number of reviews to be returned
+          required: False
+        - name: offset
+          in: query
+          type: integer
+          description: Offset from beginning of list
+          required: False
+      responses:
+        200:
+          description: "Successful read operation on reviews"
+          schema:
+            type: "array"
+            items:
+              properties:
+                workshop_id:
+                  type: "integer"
+                text:
+                  type: "string"
+                timestamp:
+                  type: "string"
+    post:
+      operationId: reviews.create
+      tags:
+        - review
+      summary: Create a review and add to list of reviews
+      description: Create a review in the reviews list
+      parameters:
+        - name: review
+          in: body
+          description: review to create
+          required: True
+          schema:
+            type: object
+            properties:
+              id:
+                type: "integer"
+                description: Identify each review
+              workshop_id:
+                type: "integer"
+                description: The workshop that is referenced 
+              text:
+                type: "string"
+                description: Text (body) of the review
+      responses:
+        201:
+          description: Successfully created review
+  
+  /reviews/{id}:
+    get:
+      operationId: reviews.read_one
+      tags:
+        - review
+      summary: Read one review from the reviews list
+      description: Read one review from reviews
+      parameters:
+        - name: id
+          in: path # /reviews/2
+          description: id to identify the review
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successful read operation on one review
+          schema:
+            properties:
+              workshop_id:
+                type: "integer"
+              text:
+                type: "string"
+              timestamp:
+                type: "string"
+              
