@@ -81,6 +81,16 @@ curl -X GET --header 'Accept: application/json' 'http://0.0.0.0:5000/api/reviews
 
 - Notice that entering a review with an `id` value that already exist will return a 406 error (implemented in `reviews.py`) and an invalid JSON (try missing out the comma, or any schema error) will raise a failed validation error and abort.
 
+- Use the `PUT` method. Set the value for `id` to 2, and add the following JSON to the `review` field:
+```
+{
+  "text": "Shocking teaching. Bad."
+}
+```
+Submit it and notice the **Response Body** as well as the 200 **Response Code**. Navigate to `http://0.0.0.0:5000/api/reviews/2` again to see the updated response body.
+
+- Use the `DELETE` method. Confirm that review id 3 currently exist on http://0.0.0.0:5000/api/reviews/3. Set the value for `id` to 3 in the DELETE method and verify that the review no longer exist. Use the `GET` method to get all reviews and viola! The review deleted is nowhere to be found.
+
 ## Learning References
 1. Learn by tweaking things and see the changes. Start renaming the `operationId` in `swagger.yml` and then the corresponding function name. Next, look into the `GET` parameters and change the query from a path-based one to a query-based (or vice-versa). Refer to the [official documentation](https://swagger.io/docs/specification/describing-parameters/) for the parameters.
 

@@ -12,7 +12,7 @@ def get_timestamp():
 # data to serve with our API
 REVIEWS = {
     1: {"workshop_id": 1, "text": "Incredible teaching!", "timestamp": get_timestamp()},
-    2: {"workshop_id": 2, "reviews": "Entertaining.", "timestamp": get_timestamp()},
+    2: {"workshop_id": 2, "text": "Entertaining.", "timestamp": get_timestamp()},
     3: {"workshop_id": 3, "text": "Learning is fun.", "timestamp": get_timestamp()},
     4: {"workshop_id": 2, "text": "Most Fascinating.", "timestamp": get_timestamp()},
 }
@@ -61,3 +61,35 @@ def create(review):
 
     else:
         abort(406, f"Review with {id} already exists")
+
+
+def update(id, review):
+    """
+    This function updates an existing review
+
+    :param id:      id of review to update
+    :param review:  review to update
+    :return:        updated review
+    """
+    if id in REVIEWS:
+        REVIEWS[id]["text"] = review.get("text")
+        REVIEWS[id]["timestamp"] = get_timestamp()
+        return REVIEWS[id]
+
+    else:
+        abort(404, f"Review with {id} not found.")
+
+
+def delete(id):
+    """
+    This function deletes an existing review
+
+    :param id:  id of review to delete
+    :return:    200 on successful delete, 404 otherwise
+    """
+    if id in REVIEWS:
+        del REVIEWS[id]
+        return make_response(f"Review {id} deleted", 200)
+
+    else:
+        abort(404, f"Review {id} not found")

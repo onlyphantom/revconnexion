@@ -94,4 +94,42 @@ paths:
                 type: "string"
               timestamp:
                 type: "string"
-              
+    put:
+      operationId: reviews.update
+      tags:
+        - review
+      summary:
+        Update a review
+      description:
+        Update a review in the reviews list
+      parameters:
+        - name: id
+          in: path
+          description: id to identify the review
+          type: integer
+          required: True
+        - name: review
+          in: body
+          schema:
+            type: object
+            properties: 
+              text:
+                type: string
+                description: Text (body) of the review
+      responses:
+        200:
+          description: Successfully updated review          
+    delete:
+      operationId: reviews.delete
+      tags:
+        - review
+      summary: Delete a review
+      description: Delete a review in the reviews list
+      parameters:
+        - name: id
+          in: path
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully deleted a review
