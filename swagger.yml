@@ -37,6 +37,8 @@ paths:
             type: "array"
             items:
               properties:
+                id:
+                  type: "integer"
                 workshop_id:
                   type: "integer"
                 text:
@@ -88,6 +90,8 @@ paths:
           description: Successful read operation on one review
           schema:
             properties:
+              id:
+                type: "integer"
               workshop_id:
                 type: "integer"
               text:
@@ -113,6 +117,9 @@ paths:
           schema:
             type: object
             properties: 
+              workshop_id:
+                type: integer
+                description: The workshop that is referenced  
               text:
                 type: string
                 description: Text (body) of the review

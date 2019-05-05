@@ -6,10 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>RevConnexion Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous">
+        </script>
 </head>
 
 <body>
-    <h2>This is RevConnexion</h2>
+    <div class="container">
+        <h1 class="banner">RevConnexion</h1>
+        <div class="section editor">
+            <label for="id">Review ID
+                <input type="number" id="id">
+            </label><br>
+            <label for="workshop_id">Workshop ID
+                <input type="number" step='1' id="workshop_id">
+            </label><br>
+            <label for="text" type="text">Review
+                <textarea id="text"></textarea>
+            </label><br>
+            <button id="create">Create</button>
+            <button id="update">Update</button>
+            <button id="delete">Delete</button>
+            <button id="reset">Reset</button>
+        </div>
+        <div class="reviews">
+            <table>
+                <caption>Reviews</caption>
+                <thead>
+                    <tr>
+                        <th>Review ID</th>
+                        <th>Workshop Reference</th>
+                        <th>Reviews</th>
+                        <th>Updated</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="error"></div>
+    </div>
+
 </body>
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
 
 </html>

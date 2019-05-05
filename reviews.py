@@ -11,10 +11,30 @@ def get_timestamp():
 
 # data to serve with our API
 REVIEWS = {
-    1: {"workshop_id": 1, "text": "Incredible teaching!", "timestamp": get_timestamp()},
-    2: {"workshop_id": 2, "text": "Entertaining.", "timestamp": get_timestamp()},
-    3: {"workshop_id": 3, "text": "Learning is fun.", "timestamp": get_timestamp()},
-    4: {"workshop_id": 2, "text": "Most Fascinating.", "timestamp": get_timestamp()},
+    1: {
+        "id": 1,
+        "workshop_id": 1,
+        "text": "Incredible teaching!",
+        "timestamp": get_timestamp(),
+    },
+    2: {
+        "id": 2,
+        "workshop_id": 2,
+        "text": "Entertaining.",
+        "timestamp": get_timestamp(),
+    },
+    3: {
+        "id": 3,
+        "workshop_id": 3,
+        "text": "Learning is fun.",
+        "timestamp": get_timestamp(),
+    },
+    4: {
+        "id": 4,
+        "workshop_id": 2,
+        "text": "Most Fascinating.",
+        "timestamp": get_timestamp(),
+    },
 }
 
 
@@ -35,7 +55,8 @@ def read_one(id):
     :return:    review matching the id
     """
     if id in REVIEWS:
-        review = REVIEWS[id]
+        # review = REVIEWS[id]
+        review = REVIEWS.get(id)
     else:
         abort(404, f"The review id {id} not found")
     return review
@@ -53,11 +74,13 @@ def create(review):
 
     if id not in REVIEWS and id is not None:
         REVIEWS[id] = {
+            "id": id,
             "workshop_id": workshop_id,
             "text": text,
             "timestamp": get_timestamp(),
         }
-        return make_response(f"{id} successfully added to reviews", 201)
+        # return make_response(f"{id} successfully added to reviews", 201)
+        return REVIEWS[id], 201
 
     else:
         abort(406, f"Review with {id} already exists")
@@ -72,6 +95,7 @@ def update(id, review):
     :return:        updated review
     """
     if id in REVIEWS:
+        REVIEWS[id]["workshop_id"] = review.get("workshop_id")
         REVIEWS[id]["text"] = review.get("text")
         REVIEWS[id]["timestamp"] = get_timestamp()
         return REVIEWS[id]
