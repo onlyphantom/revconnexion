@@ -14,11 +14,11 @@ basePath: "/api"
 paths:
   /reviews:
     get:
-      operationId: "reviews.read_all" # defines the Python import path/function that will respond to the GET
+      operationId: "reviews.read_all_sql" # defines the Python import path/function that will respond to the GET
       tags:
         - Reviews
       summary: "Read entire list of reviews"
-      description: "Read the list of reviews"
+      description: "Read the list of reviews from db"
       parameters:
         - name: length
           in: query # path: (/reviews/{length}) or query: (/reviews?length=2)
@@ -37,14 +37,26 @@ paths:
             type: "array"
             items:
               properties:
+                assistants_score:
+                  type: "integer"
+                comments:
+                  type: "string"
+                difficulty:
+                  type: "integer"
                 id:
+                  type: "integer"
+                knowledge:
+                  type: "integer"
+                objectives:
+                  type: "integer"
+                satisfaction_score:
+                  type: "integer"
+                timeliness:
+                  type: "integer"
+                venue_score:
                   type: "integer"
                 workshop_id:
                   type: "integer"
-                text:
-                  type: "string"
-                timestamp:
-                  type: "string"
     post:
       operationId: reviews.create
       tags:

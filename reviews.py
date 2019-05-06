@@ -1,49 +1,30 @@
-# System modules
 from datetime import datetime
-
-# 3rd party modules
 from flask import make_response, abort
-
-
-def get_timestamp():
-    return datetime.now().strftime(("%Y-%m-%d %H:%M:%S"))
+from config import db
+from models import Response, ResponseSchema
 
 
 # data to serve with our API
 REVIEWS = {
-    1: {
-        "id": 1,
-        "workshop_id": 1,
-        "text": "Incredible teaching!",
-        "timestamp": get_timestamp(),
-    },
-    2: {
-        "id": 2,
-        "workshop_id": 2,
-        "text": "Entertaining.",
-        "timestamp": get_timestamp(),
-    },
-    3: {
-        "id": 3,
-        "workshop_id": 3,
-        "text": "Learning is fun.",
-        "timestamp": get_timestamp(),
-    },
-    4: {
-        "id": 4,
-        "workshop_id": 2,
-        "text": "Most Fascinating.",
-        "timestamp": get_timestamp(),
-    },
+    1: {"id": 1, "workshop_id": 1, "text": "Incredible teaching!"},
+    2: {"id": 2, "workshop_id": 2, "text": "Entertaining."},
+    3: {"id": 3, "workshop_id": 3, "text": "Learning is fun."},
+    4: {"id": 4, "workshop_id": 2, "text": "Most Fascinating."},
 }
 
 
-def read_all():
-    """
-    This function responds to a request for /api/reviews
-    with the complete lists of people
-    """
-    return [REVIEWS[key] for key in sorted(REVIEWS.keys())]
+def read_all_sql(length=False, offset=False):
+    response = Response.query.order_by(Response.id.desc())
+    if length:
+        response = response.limit(length)
+
+    if offset:
+        response = response.offset(offset)
+
+    response = response.all()
+    # serialize the data for the response
+    response_schema = ResponseSchema(many=True)
+    return response_schema.dump(response).data
 
 
 def read_one(id):

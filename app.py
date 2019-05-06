@@ -1,14 +1,14 @@
-from flask import Flask, render_template
-import connexion
+from flask import render_template
+import config
 
-# create the application instance
-app = connexion.App(__name__, specification_dir="./")
+# get the application instance
+connex_app = config.connex_app
 
 # read the swagger.yml file to configure endpoints
-app.add_api("swagger.yml")
+connex_app.add_api("swagger.yml")
 
 
-@app.route("/")
+@connex_app.route("/")
 def home():
     """
     This function just responds to localhost:5000/
@@ -19,5 +19,5 @@ def home():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    connex_app.run(host="0.0.0.0", port=5000, debug=True)
 
