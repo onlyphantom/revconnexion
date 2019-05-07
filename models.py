@@ -26,7 +26,6 @@ class Employee(db.Model):
         secondary=ta_assignment,
         backref=db.backref("assistants", lazy="dynamic"),
     )
-
     assigned_instructor = db.relationship("Workshop", backref=db.backref("instructor"))
 
     def __repr__(self):
@@ -75,8 +74,17 @@ class Response(db.Model):
     satisfaction_score = db.Column(db.Integer)
     comments = db.Column(db.Text)
 
+    def __repr__(self):
+        return f"{self.id}: {self.comments}"
+
 
 class ResponseSchema(ma.ModelSchema):
     class Meta:
         model = Response
+        include_fk = True
+        exclude = tuple(
+            prop.key
+            for prop in Response.__mapper__.iterate_properties
+            if hasattr(prop, "direction")
+        )
         sqla_session = db.session

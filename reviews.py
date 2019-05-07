@@ -14,6 +14,15 @@ REVIEWS = {
 
 
 def read_sql(workshop_id=False, length=False, offset=False):
+    """
+    This function responds to a request for api/reviews/
+    with matching review given a list of optional parameters
+
+    :param workshop_id: [optional] id of the workshop being referenced, int
+    :param length:      [optional] number of reviews to return, int
+    :param offset:      [optional] number of reviews to offset by, int
+    :return:            all matching reviews
+    """
     response = Response.query
     if workshop_id:
         response = response.filter_by(workshop_id=workshop_id)
@@ -27,16 +36,15 @@ def read_sql(workshop_id=False, length=False, offset=False):
         response = response.offset(offset)
 
     response = response.all()
-    # serialize the data for the response
-    response_schema = ResponseSchema(many=True)
     if len(response):
+        # serialize the data for the response
         response_schema = ResponseSchema(many=True)
         return response_schema.dump(response).data
     else:
         abort(404, f"Workshop {workshop_id} doesn't exist or it doesn't have reviews.")
 
 
-def read_one(id):
+def read_sql_one(id):
     """
     This function responds to a request for api/reviews/{id}
     with one matching review from reviews
@@ -44,36 +52,35 @@ def read_one(id):
     :param id:  id of the review
     :return:    review matching the id
     """
-    if id in REVIEWS:
-        # review = REVIEWS[id]
-        review = REVIEWS.get(id)
+    response = Response.query.filter_by(id=id).one_or_none()
+    if response is not None:
+        # serialize the data for the response
+        response_schema = ResponseSchema()
+        return response_schema.dump(response).data
     else:
-        abort(404, f"The review id {id} not found")
-    return review
+        abort(404, f"Review {id} not found.")
 
 
-def create(review):
+def create_sql(review):
     """
     This function creates a new review in the reviews structure
     :param review:  review to create in reviews
     :return:        201 on success, 406 on review exists
     """
     id = review.get("id", None)
-    workshop_id = review.get("workshop_id", None)
-    text = review.get("text", None)
-
-    if id not in REVIEWS and id is not None:
-        REVIEWS[id] = {
-            "id": id,
-            "workshop_id": workshop_id,
-            "text": text,
-            "timestamp": get_timestamp(),
-        }
-        # return make_response(f"{id} successfully added to reviews", 201)
-        return REVIEWS[id], 201
+    response = Response.query.filter_by(id=id).one_or_none()
+    if response is None:
+        # Create a response instance using the schema and the passed in review
+        response_schema = ResponseSchema()
+        created_response = response_schema.load(review, session=db.session).data
+        # add response to database
+        db.session.add(created_response)
+        db.session.commit()
+        # serialize and return the newly created response
+        return response_schema.dump(created_response).data, 201
 
     else:
-        abort(406, f"Review with {id} already exists")
+        abort(406, f"Review {id} already exists")
 
 
 def update(id, review):

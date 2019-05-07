@@ -63,7 +63,7 @@ paths:
                 workshop_id:
                   type: "integer"
     post:
-      operationId: reviews.create
+      operationId: reviews.create_sql
       tags:
         - review
       summary: Create a review and add to list of reviews
@@ -76,26 +76,38 @@ paths:
           schema:
             type: object
             properties:
-              id:
-                type: "integer"
-                description: Identify each review
-              workshop_id:
-                type: "integer"
-                description: The workshop that is referenced 
-              text:
-                type: "string"
-                description: Text (body) of the review
+                assistants_score:
+                  type: "integer"
+                comments:
+                  type: "string"
+                  description: "Comment (body) of the review"
+                difficulty:
+                  type: "integer"
+                id:
+                  type: "integer"
+                knowledge:
+                  type: "integer"
+                objectives:
+                  type: "integer"
+                satisfaction_score:
+                  type: "integer"
+                timeliness:
+                  type: "integer"
+                venue_score:
+                  type: "integer"
+                workshop_id:
+                  type: "integer"
       responses:
         201:
           description: Successfully created review
 
   /reviews/{id}:
     get:
-      operationId: reviews.read_one
+      operationId: reviews.read_sql_one
       tags:
         - review
-      summary: Read one review from the reviews list
-      description: Read one review from reviews
+      summary: Read one review from the reviews table
+      description: Read one review from the reviews table
       parameters:
         - name: id
           in: path # /reviews/2
@@ -107,14 +119,26 @@ paths:
           description: Successful read operation on one review
           schema:
             properties:
+              assistants_score:
+                type: "integer"
+              comments:
+                type: "string"
+              difficulty:
+                type: "integer"
               id:
+                type: "integer"
+              knowledge:
+                type: "integer"
+              objectives:
+                type: "integer"
+              satisfaction_score:
+                type: "integer"
+              timeliness:
+                type: "integer"
+              venue_score:
                 type: "integer"
               workshop_id:
                 type: "integer"
-              text:
-                type: "string"
-              timestamp:
-                type: "string"
     put:
       operationId: reviews.update
       tags:
