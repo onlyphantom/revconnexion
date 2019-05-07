@@ -94,8 +94,8 @@ ns.view = (function () {
     'use strict';
 
     let $id = $('#id'),
-        $workshop_id = $('#workshop_id'),
-        $text = $('#text');
+        $workshop = $('#workshop'),
+        $comments = $('#comments');
 
     // return the API
     return {
@@ -118,7 +118,17 @@ ns.view = (function () {
             // did we get a reviews array?
             if (reviews) {
                 for (let i = 0, l = reviews.length; i < l; i++) {
-                    rows += `<tr><td class="id">${reviews[i].id}</td><td class="workshop_id">${reviews[i].workshop_id}</td><td class="text">${reviews[i].text}</td><td>${reviews[i].timestamp}</td></tr>`;
+                    rows += `<tr><td class="id">${reviews[i].id}</td>
+                    <td class="workshop_id">${reviews[i].workshop}</td>
+                    <td class="difficulty">${reviews[i].difficulty}</td>
+                    <td class="assistants_score">${reviews[i].assistants_score}</td>
+                    <td class="knowledge">${reviews[i].knowledge}</td>
+                    <td class="objectives">${reviews[i].objectives}</td>
+                    <td class="timeliness">${reviews[i].timeliness}</td>
+                    <td class="venue_score">${reviews[i].venue_score}</td>
+                    <td class="satisfaction_score">${reviews[i].satisfaction_score}</td>
+                    <td class="comments">${reviews[i].comments}</td>
+                    </tr>`;
                 }
                 $('table > tbody').append(rows);
             }
