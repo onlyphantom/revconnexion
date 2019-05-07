@@ -4,15 +4,6 @@ from config import db
 from models import Response, ResponseSchema
 
 
-# data to serve with our API
-REVIEWS = {
-    1: {"id": 1, "workshop_id": 1, "text": "Incredible teaching!"},
-    2: {"id": 2, "workshop_id": 2, "text": "Entertaining."},
-    3: {"id": 3, "workshop_id": 3, "text": "Learning is fun."},
-    4: {"id": 4, "workshop_id": 2, "text": "Most Fascinating."},
-}
-
-
 def read_sql(workshop_id=False, length=False, offset=False):
     """
     This function responds to a request for api/reviews/

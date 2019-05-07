@@ -29,7 +29,8 @@ ns.model = (function () {
                     $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
                 })
         },
-        'create': function (id, workshop_id, text) {
+        'create': function (id, workshop_id, assistants, difficulty,
+            knowledge, objectives, satisfaction, timeliness, venue, comments) {
             let ajax_options = {
                 type: 'POST',
                 url: 'api/reviews',
@@ -39,7 +40,14 @@ ns.model = (function () {
                 data: JSON.stringify({
                     'id': parseInt(id),
                     'workshop_id': parseInt(workshop_id),
-                    'text': text
+                    'assistants_score': parseInt(assistants),
+                    'difficulty': parseInt(difficulty),
+                    'knowledge': parseInt(knowledge),
+                    'objectives': parseInt(objectives),
+                    'satisfaction_score': parseInt(satisfaction),
+                    'timeliness': parseInt(timeliness),
+                    'venue_score': parseInt(venue),
+                    'comments': comments
                 })
             };
             console.log(ajax_options.data)
@@ -93,16 +101,30 @@ ns.model = (function () {
 ns.view = (function () {
     'use strict';
 
-    let $id = $('#id'),
-        $workshop = $('#workshop'),
+    let $id = $('#review_id'),
+        $workshop_id = $('#workshop_id'),
+        $assistants = $('#assistants'),
+        $difficulty = $('#difficulty'),
+        $knowledge = $('#knowledge'),
+        $objectives = $('#objectives'),
+        $satisfaction = $('#satisfaction'),
+        $timeliness = $('#timeliness'),
+        $venue = $('#venue'),
         $comments = $('#comments');
 
     // return the API
     return {
         reset: function () {
             $id.val('');
-            $text.val('');
+            $assistants.val('');
+            $difficulty.val('');
+            $knowledge.val('');
+            $objectives.val('');
+            $satisfaction.val('');
+            $timeliness.val('');
+            $venue.val('');
             $workshop_id.val('').focus();
+            $comments.val('');
         },
         update_editor: function (id, workshop_id, text) {
             $id.val(id)
@@ -118,16 +140,16 @@ ns.view = (function () {
             // did we get a reviews array?
             if (reviews) {
                 for (let i = 0, l = reviews.length; i < l; i++) {
-                    rows += `<tr><td class="id">${reviews[i].id}</td>
-                    <td class="workshop_id">${reviews[i].workshop}</td>
-                    <td class="difficulty">${reviews[i].difficulty}</td>
-                    <td class="assistants_score">${reviews[i].assistants_score}</td>
-                    <td class="knowledge">${reviews[i].knowledge}</td>
-                    <td class="objectives">${reviews[i].objectives}</td>
-                    <td class="timeliness">${reviews[i].timeliness}</td>
-                    <td class="venue_score">${reviews[i].venue_score}</td>
-                    <td class="satisfaction_score">${reviews[i].satisfaction_score}</td>
-                    <td class="comments">${reviews[i].comments}</td>
+                    rows += `<tr><td class="id" data-label="id">${reviews[i].id}</td>
+                    <td class="workshop_id" data-label="workshop_id">${reviews[i].workshop_id}</td>
+                    <td class="difficulty" data-label="difficulty">${reviews[i].difficulty}</td>
+                    <td class="assistants_score" data-label="assistants_score">${reviews[i].assistants_score}</td>
+                    <td class="knowledge" data-label="knowledge">${reviews[i].knowledge}</td>
+                    <td class="objectives" data-label="objectives">${reviews[i].objectives}</td>
+                    <td class="timeliness" data-label="timeliness">${reviews[i].timeliness}</td>
+                    <td class="venue_score" data-label="venue_score">${reviews[i].venue_score}</td>
+                    <td class="satisfaction_score" data-label="satisfaction_score">${reviews[i].satisfaction_score}</td>
+                    <td class="comments" data-label="comments">${reviews[i].comments}</td>
                     </tr>`;
                 }
                 $('table > tbody').append(rows);
@@ -151,9 +173,16 @@ ns.controller = (function (m, v) {
     let model = m,
         view = v,
         $event_pump = $('body'),
-        $id = $('#id'),
+        $id = $('#review_id'),
         $workshop_id = $('#workshop_id'),
-        $text = $('#text');
+        $assistants = $('#assistants'),
+        $difficulty = $('#difficulty'),
+        $knowledge = $('#knowledge'),
+        $objectives = $('#objectives'),
+        $satisfaction = $('#satisfaction'),
+        $timeliness = $('#timeliness'),
+        $venue = $('#venue'),
+        $comments = $('#comments');
     // Get the data from the model after the controller is done initializing
     setTimeout(function () {
         model.read();
@@ -169,11 +198,20 @@ ns.controller = (function (m, v) {
 
         let id = $id.val(),
             workshop_id = $workshop_id.val(),
-            text = $text.val();
+            assistants = $assistants.val(),
+            difficulty = $difficulty.val(),
+            knowledge = $knowledge.val(),
+            objectives = $objectives.val(),
+            satisfaction = $satisfaction.val(),
+            timeliness = $timeliness.val(),
+            venue = $venue.val(),
+            comments = $comments.val();
         e.preventDefault();
 
-        if (validate(workshop_id, text)) {
-            model.create(id, workshop_id, text)
+        if (validate(id, workshop_id, assistants, difficulty,
+            knowledge, objectives, satisfaction, timeliness, venue, comments)) {
+            model.create(id, workshop_id, assistants, difficulty, knowledge,
+                objectives, satisfaction, timeliness, venue, comments)
         } else {
             alert('Problem with one or more input');
         }

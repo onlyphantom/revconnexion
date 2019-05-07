@@ -1,73 +1,3 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,300,500,700);
-body, .ui-btn {
-    font-family: Roboto;
-}
-
-.container {
-    padding: 10px;
-}
-
-.banner {
-    text-align: center;
-}
-
-.editor {
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 5px;
-    border: 1px solid lightgrey;
-    border-radius: 3px;
-    margin-bottom: 5px;
-}
-
-label {
-    display: inline-block;
-    margin-bottom: 5px;
-}
-
-button {
-    padding: 5px;
-    margin-right: 5px;
-    border-radius: 3px;
-    background-color: #eee;
-}
-
-.people {
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 5px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-table, caption, th, td {
-    border: 1px solid lightgrey;
-}
-
-table caption {
-    height: 33px;
-    font-weight: bold;
-    padding-top: 5px;
-    border-bottom: none;
-}
-
-tr {
-    height: 33px;
-}
-
-tr:nth-child(even) {
-    background-color: #f0f0f0
-}
-
-td {
-    text-align: center;
-}
-
 .error {
     width: 50%;
     margin-left: auto;
@@ -78,3 +8,87 @@ td {
     background-color: #fbb;
     visibility: hidden;
 }
+
+.mt-2 {
+    margin-top:20px;
+}
+
+.mt-4 {
+    margin-top:40px;
+}
+
+/* ------------------------------ */
+/* ------Foundation Classes------ */
+/* ------------------------------ */
+
+.responsive-card-table {
+  border-collapse: collapse;
+}
+
+.responsive-card-table.unstriped tbody {
+  background-color: transparent;
+}
+
+.responsive-card-table th {
+  background-color: #e6e6e6;
+}
+
+.responsive-card-table tr,
+.responsive-card-table th,
+.responsive-card-table td {
+  border: 1px solid #0a0a0a;
+}
+
+@media screen and (max-width: 640px) {
+  .responsive-card-table {
+    
+  }
+  .responsive-card-table thead tr {
+    position: absolute;
+    top: -9999em;
+    left: -9999em;
+  }
+  .responsive-card-table tr {
+    border: 1px solid #0a0a0a;
+    display: block;
+  }
+  .responsive-card-table tr + tr {
+    margin-top: 1.5rem;
+  }
+  .responsive-card-table td {
+    border: none;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    border-bottom: 1px solid #0a0a0a;
+    padding-left: 50%;
+    position: relative;
+  }
+  .responsive-card-table td:before {
+    content: attr(data-label);
+    display: inline-block;
+    font-weight: bold;
+    line-height: 1.5;
+    margin-left: -100%;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+  .responsive-card-table td:after {
+    content: '';
+    position: absolute;
+    background: #e6e6e6;
+    width: 45%;
+    height: 95%;
+    left: 1px;
+    top: 1px;
+    z-index: 0;
+  }
+}
+

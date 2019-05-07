@@ -5,57 +5,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>RevConnexion Home</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+    <title>RevConnexion</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.3/dist/css/foundation.min.css"
+        integrity="sha256-xpOKVlYXzQ3P03j397+jWFZLMBXLES3IiryeClgU5og= sha384-gP4DhqyoT9b1vaikoHi9XQ8If7UNLO73JFOOlQV1RATrA7D0O7TjJZifac6NwPps sha512-AKwIib1E+xDeXe0tCgbc9uSvPwVYl6Awj7xl0FoaPFostZHOuDQ1abnDNCYtxL/HWEnVOMrFyf91TDgLPi9pNg=="
+        crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous">
-        </script>
 </head>
 
 <body>
-    <div class="container">
-        <h1 class="banner">RevConnexion</h1>
-        <div class="section editor">
-            <label for="id">Review ID
-                <input type="number" id="id">
-            </label><br>
-            <label for="workshop_id">Workshop ID
-                <input type="number" step='1' id="workshop_id">
-            </label><br>
-            <label for="difficulty">Difficulty
-                <input type="number" step='1' id="difficulty">
-            </label><br>
-            <label for="assistants">Assistants
-                <input type="number" step='1' id="assistants">
-            </label><br>
-            <label for="knowledge">Knowledge
-                <input type="number" step='1' id="knowledge">
-            </label><br>
-            <label for="objectives">Objectives
-                <input type="number" step='1' id="objectives">
-            </label><br>
-            <label for="timeliness">Timeliness
-                <input type="number" step='1' id="timeliness">
-            </label><br>
-            <label for="venue">Venue
-                <input type="number" step='1' id="venue">
-            </label><br>
-            <label for="satisfaction">Satisfaction
-                <input type="number" step='1' id="satisfaction">
-            </label><br>
-            <label for="comments" type="text">Comments
-                <textarea id="comments"></textarea>
-            </label><br>
-            <button id="create">Create</button>
-            <button id="update">Update</button>
-            <button id="delete">Delete</button>
-            <button id="reset">Reset</button>
+    <div class="mt-4">
+        <ul class="menu align-right">
+            <li><a href="{{ url_for('/api./api_swagger_ui_index') }}">API Documentation</a></li>
+            <li><a href="http://github.com/onlyphantom/revconnexion">GitHub</a></li>
+        </ul>
+    </div>
+    <div class="grid-container fluid">
+        <div class="grid-x grid-margin-x small-up-1 medium-up-4 large-up-4 mt-4">
+            <div class="cell">
+                <div class="callout success" data-closable>
+                    <p>Explore the Pedagogy Project</p>
+                    <p>If you like RevConnexion, you will like
+                        the other open-source app we've built, Pedagogy.
+                        We develop Pedagogy as a feedback-driven performance
+                        management app for education professionals.
+                        Check out <a href="http://pedagogyapp.com">a demo</a> and
+                        head over to our Github page.
+                    </p>
+                    <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <h5>About RevConnexion <br> <small>RESTful API for Pedagogy</small> </h5>
+            </div>
+            <div class="cell">
+                <label for="id">Review ID
+                    <input type="number" id="review_id">
+                </label><br>
+                <label for="workshop_id">Workshop ID
+                    <input type="number" step='1' id="workshop_id">
+                </label><br>
+                <label for="difficulty">Difficulty
+                    <input type="number" step='1' id="difficulty">
+                </label><br>
+                <label for="assistants">Assistants
+                    <input type="number" step='1' id="assistants">
+                </label><br>
+            </div>
+            <div class="cell">
+                <label for="knowledge">Knowledge
+                    <input type="number" step='1' id="knowledge">
+                </label><br>
+                <label for="objectives">Objectives
+                    <input type="number" step='1' id="objectives">
+                </label><br>
+                <label for="timeliness">Timeliness
+                    <input type="number" step='1' id="timeliness">
+                </label><br>
+                <label for="venue">Venue
+                    <input type="number" step='1' id="venue">
+                </label><br>
+            </div>
+            <div class="cell">
+                <label for="satisfaction">Satisfaction
+                    <input type="number" step='1' id="satisfaction">
+                </label><br>
+                <label>Comments
+                    <textarea id="comments" placeholder="Additional comments" rows=5></textarea>
+                </label><br>
+                <div class="button-group">
+                    <button id="create" class="hollow primary button">Create</button>
+                    <button id="update" class="hollow secondary button">Update</button>
+                    <button id="delete" class="hollow warning button">Delete</button>
+                    <button id="reset" class="hollow alert button">Reset</button>
+                </div>
+
+            </div>
+
         </div>
-        <div class="reviews">
-            <table>
-                <caption>Reviews</caption>
+
+
+        <div class="reviews mt-4">
+            <table class="responsive-card-table unstriped">
                 <thead>
                     <tr>
                         <th>Reviewid</th>
@@ -77,6 +108,12 @@
     </div>
 
 </body>
+<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous">
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.3/dist/js/foundation.min.js"
+    integrity="sha256-/PFxCnsMh+nTuM0k3VJCRch1gwnCfKjaP8rJNq5SoBg= sha384-9ksAFjQjZnpqt6VtpjMjlp2S0qrGbcwF/rvrLUg2vciMhwc1UJJeAAOLuJ96w+Nj sha512-UMSn6RHqqJeJcIfV1eS2tPKCjzaHkU/KqgAnQ7Nzn0mLicFxaVhm9vq7zG5+0LALt15j1ljlg8Fp9PT1VGNmDw=="
+    crossorigin="anonymous"></script>
 <script src="{{ url_for('static', filename='js/home.js') }}"></script>
 
 </html>

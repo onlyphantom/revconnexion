@@ -1,9 +1,10 @@
 # define /api/people
 swagger: "2.0"
 info:
-  description: The swagger file that goes with RevConnexion
   version: "1.0.0"
-  title: Swagger REST API for RevConnexion
+  title: API Documentation for RevConnexion
+  description: RESTful API for working with\
+    the Pedagogy performance management app
 consumes:
   - "application/json"
 produces:
@@ -17,8 +18,8 @@ paths:
       operationId: "reviews.read_sql" # defines the Python import path/function that will respond to the GET
       tags:
         - Reviews
-      summary: "Read entire list of reviews"
-      description: "Read the list of reviews from db"
+      summary: "Read all reviews from db"
+      description: "Read all reviews from response table in db"
       parameters:
         - name: length
           in: query # path: (/reviews/{length}) or query: (/reviews?length=2)
@@ -106,8 +107,8 @@ paths:
       operationId: reviews.read_sql_one
       tags:
         - review
-      summary: Read one review from the reviews table
-      description: Read one review from the reviews table
+      summary: Read a review from db
+      description: Read a review from response table in db
       parameters:
         - name: id
           in: path # /reviews/2
