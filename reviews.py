@@ -13,8 +13,13 @@ REVIEWS = {
 }
 
 
-def read_all_sql(length=False, offset=False):
-    response = Response.query.order_by(Response.id.desc())
+def read_sql(workshop_id=False, length=False, offset=False):
+    response = Response.query
+    if workshop_id:
+        response = response.filter_by(workshop_id=workshop_id)
+
+    response = response.order_by(Response.id.desc())
+
     if length:
         response = response.limit(length)
 
@@ -24,7 +29,11 @@ def read_all_sql(length=False, offset=False):
     response = response.all()
     # serialize the data for the response
     response_schema = ResponseSchema(many=True)
-    return response_schema.dump(response).data
+    if len(response):
+        response_schema = ResponseSchema(many=True)
+        return response_schema.dump(response).data
+    else:
+        abort(404, f"Workshop {workshop_id} doesn't exist or it doesn't have reviews.")
 
 
 def read_one(id):

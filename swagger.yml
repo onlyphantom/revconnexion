@@ -14,7 +14,7 @@ basePath: "/api"
 paths:
   /reviews:
     get:
-      operationId: "reviews.read_all_sql" # defines the Python import path/function that will respond to the GET
+      operationId: "reviews.read_sql" # defines the Python import path/function that will respond to the GET
       tags:
         - Reviews
       summary: "Read entire list of reviews"
@@ -29,6 +29,11 @@ paths:
           in: query
           type: integer
           description: Offset from beginning of list
+          required: False
+        - name: workshop_id
+          in: query
+          type: integer
+          description: ID of workshop that is being referenced
           required: False
       responses:
         200:
@@ -83,7 +88,7 @@ paths:
       responses:
         201:
           description: Successfully created review
-  
+
   /reviews/{id}:
     get:
       operationId: reviews.read_one
