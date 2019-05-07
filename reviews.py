@@ -63,8 +63,8 @@ def read_sql_one(id):
 
 def create_sql(review):
     """
-    This function creates a new review in the reviews structure
-    :param review:  review to create in reviews
+    This function creates a Response object instance
+    :param review:  review used to create the Response object instance
     :return:        201 on success, 406 on review exists
     """
     id = review.get("id", None)
@@ -85,20 +85,24 @@ def create_sql(review):
 
 def update(id, review):
     """
-    This function updates an existing review
+    This function updates an existing Response object instance
 
-    :param id:      id of review to update
-    :param review:  review to update
+    :param id:      id of the review
+    :param review:  review used to create the Response object instance
     :return:        updated review
     """
-    if id in REVIEWS:
-        REVIEWS[id]["workshop_id"] = review.get("workshop_id")
-        REVIEWS[id]["text"] = review.get("text")
-        REVIEWS[id]["timestamp"] = get_timestamp()
-        return REVIEWS[id]
-
+    response = Response.query.filter_by(id=id).one_or_none()
+    if response is not None:
+        response_schema = ResponseSchema()
+        update = response_schema.load(review, session=db.session).data
+        update.id = response.id
+        # add response to database
+        db.session.merge(update)
+        db.session.commit()
+        # serialize and return the newly created response
+        return response_schema.dump(update).data, 201
     else:
-        abort(404, f"Review with {id} not found.")
+        abort(404, f"Review {id} not found.")
 
 
 def delete(id):
@@ -108,9 +112,10 @@ def delete(id):
     :param id:  id of review to delete
     :return:    200 on successful delete, 404 otherwise
     """
-    if id in REVIEWS:
-        del REVIEWS[id]
+    response = Response.query.filter_by(id=id).one_or_none()
+    if response is not None:
+        db.session.delete(response)
+        db.session.commit()
         return make_response(f"Review {id} deleted", 200)
-
     else:
         abort(404, f"Review {id} not found")

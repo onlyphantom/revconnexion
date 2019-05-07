@@ -66,8 +66,8 @@ paths:
       operationId: reviews.create_sql
       tags:
         - review
-      summary: Create a review and add to list of reviews
-      description: Create a review in the reviews list
+      summary: Post a review to db
+      description: Create a response instance and write to db
       parameters:
         - name: review
           in: body
@@ -157,13 +157,26 @@ paths:
           in: body
           schema:
             type: object
-            properties: 
+            properties:
+              assistants_score:
+                type: "integer"
+              comments:
+                type: "string"
+                description: "Comment (body) of the review"
+              difficulty:
+                type: "integer"
+              knowledge:
+                type: "integer"
+              objectives:
+                type: "integer"
+              satisfaction_score:
+                type: "integer"
+              timeliness:
+                type: "integer"
+              venue_score:
+                type: "integer"
               workshop_id:
-                type: integer
-                description: The workshop that is referenced  
-              text:
-                type: string
-                description: Text (body) of the review
+                type: "integer"
       responses:
         200:
           description: Successfully updated review          
