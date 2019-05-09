@@ -1,8 +1,3 @@
-/*
- * JavaScript file for the application to demonstrate
- * using the API
- */
-
 // Create the namespace instance
 let ns = {};
 
@@ -59,7 +54,8 @@ ns.model = (function () {
                     $event_pump.trigger('model_error', [xhr, textStatus, errorThrown]);
                 })
         },
-        'update': function (id, workshop_id, text) {
+        'update': function (id, workshop_id, assistants, difficulty,
+            knowledge, objectives, satisfaction, timeliness, venue, comments) {
             let ajax_options = {
                 type: 'PUT',
                 url: 'api/reviews/' + id,
@@ -67,8 +63,16 @@ ns.model = (function () {
                 contentType: 'application/json',
                 dataType: 'json',
                 data: JSON.stringify({
+                    'id': parseInt(id),
                     'workshop_id': parseInt(workshop_id),
-                    'text': text
+                    'assistants_score': parseInt(assistants),
+                    'difficulty': parseInt(difficulty),
+                    'knowledge': parseInt(knowledge),
+                    'objectives': parseInt(objectives),
+                    'satisfaction_score': parseInt(satisfaction),
+                    'timeliness': parseInt(timeliness),
+                    'venue_score': parseInt(venue),
+                    'comments': comments
                 })
             };
             $.ajax(ajax_options)
@@ -126,10 +130,19 @@ ns.view = (function () {
             $workshop_id.val('').focus();
             $comments.val('');
         },
-        update_editor: function (id, workshop_id, text) {
-            $id.val(id)
-            $text.val(text).focus();
+
+        update_editor: function (id, workshop_id, difficulty, assistants_score,
+            knowledge, objectives, timeliness, venue_score, satisfaction_score, comments) {
+            $id.val(id);
             $workshop_id.val(workshop_id);
+            $difficulty.val(difficulty);
+            $assistants.val(assistants_score);
+            $knowledge.val(knowledge);
+            $objectives.val(objectives);
+            $timeliness.val(timeliness);
+            $venue.val(venue_score);
+            $satisfaction.val(satisfaction_score);
+            $comments.val(comments).focus();
         },
         build_table: function (reviews) {
             let rows = ''
@@ -220,12 +233,21 @@ ns.controller = (function (m, v) {
     $('#update').click(function (e) {
         let id = $id.val(),
             workshop_id = $workshop_id.val(),
-            text = $text.val();
+            assistants = $assistants.val(),
+            difficulty = $difficulty.val(),
+            knowledge = $knowledge.val(),
+            objectives = $objectives.val(),
+            satisfaction = $satisfaction.val(),
+            timeliness = $timeliness.val(),
+            venue = $venue.val(),
+            comments = $comments.val();
 
         e.preventDefault();
 
-        if (validate(workshop_id, text)) {
-            model.update(id, workshop_id, text)
+        if (validate(id, workshop_id, assistants, difficulty,
+            knowledge, objectives, satisfaction, timeliness, venue, comments)) {
+            model.update(id, workshop_id, assistants, difficulty, knowledge,
+                objectives, satisfaction, timeliness, venue, comments)
         } else {
             alert('Problem with fone or more input');
         }
@@ -248,24 +270,28 @@ ns.controller = (function (m, v) {
         let $target = $(e.target),
             id,
             workshop_id,
-            text;
+            difficulty,
+            assistants_score,
+            knowledge,
+            objectives,
+            timeliness,
+            venue_score,
+            satisfaction_score,
+            comments;
 
-        id = $target
-            .parent()
-            .find('td.id')
-            .text();
+        id = $target.parent().find('td.id').text();
+        workshop_id = $target.parent().find('td.workshop_id').text();
+        difficulty = $target.parent().find('td.difficulty').text()
+        assistants_score = $target.parent().find('td.assistants_score').text()
+        knowledge = $target.parent().find('td.knowledge').text()
+        objectives = $target.parent().find('td.objectives').text()
+        timeliness = $target.parent().find('td.timeliness').text()
+        venue_score = $target.parent().find('td.venue_score').text()
+        satisfaction_score = $target.parent().find('td.satisfaction_score').text()
+        comments = $target.parent().find('td.comments').text();
 
-        workshop_id = $target
-            .parent()
-            .find('td.workshop_id')
-            .text();
-
-        text = $target
-            .parent()
-            .find('td.text')
-            .text();
-
-        view.update_editor(id, workshop_id, text);
+        view.update_editor(id, workshop_id, difficulty, assistants_score,
+            knowledge, objectives, timeliness, venue_score, satisfaction_score, comments);
     });
 
     // Handle the model events

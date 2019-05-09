@@ -21,7 +21,7 @@
         </ul>
     </div>
     <div class="grid-container fluid">
-        <div class="grid-x grid-margin-x small-up-1 medium-up-4 large-up-4 mt-4">
+        <div class="grid-x grid-margin-x small-up-1 medium-up-3 large-up-3 mt-3">
             <div class="cell">
                 <div class="callout success" data-closable>
                     <p>Explore the Pedagogy Project</p>
@@ -36,7 +36,28 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <h5>About RevConnexion <br> <small>RESTful API for Pedagogy</small> </h5>
+                <h5>About RevConnexion <br> <small>Using the RESTful API for Pedagogy:</small> </h5>
+                <ol>
+                    <li>Create an entry in the database. Fill the form and hit <b>Create</b></li>
+                    <li>Click on any of the entry above, edit one of the values and hit <b>Update</b></li>
+                    <li>Click on the entry you created in (1). This will populate the form with the values of that
+                        entry. Hit <b>Delete</b>. <br><small>Tip: Delete only actually required the <i>Review ID</i>
+                            field.</small>
+                    <li>Head over to the <a href="http://0.0.0.0:5000/api/reviews?length=5&offset=0" target="_blank">API
+                            view </a> to
+                        see the JSON response.</li>
+                    <li>Change the <code>length</code> and <code>offset</code> query parameters in (4) and observe the
+                        change. </li>
+                    </li>
+                    <li>
+                        Explore the <a href="http://0.0.0.0:5000/api/ui/" target="_blank">API Documentation</a>
+                        using the Swagger UI. Notice that the <code>length</code> and <code>offset</code> are optional
+                        parameters as noted in the documentation. Try to delete another entry using <code>curl</code> or
+                        the HTTP method as per
+                        documentation.
+                    </li>
+
+                    </p>
             </div>
             <div class="cell">
                 <label for="id">Review ID
@@ -51,22 +72,20 @@
                 <label for="assistants">Assistants
                     <input type="number" step='1' id="assistants">
                 </label><br>
-            </div>
-            <div class="cell">
                 <label for="knowledge">Knowledge
                     <input type="number" step='1' id="knowledge">
                 </label><br>
                 <label for="objectives">Objectives
                     <input type="number" step='1' id="objectives">
-                </label><br>
+                </label>
+            </div>
+            <div class="cell">
                 <label for="timeliness">Timeliness
                     <input type="number" step='1' id="timeliness">
                 </label><br>
                 <label for="venue">Venue
                     <input type="number" step='1' id="venue">
                 </label><br>
-            </div>
-            <div class="cell">
                 <label for="satisfaction">Satisfaction
                     <input type="number" step='1' id="satisfaction">
                 </label><br>
@@ -79,7 +98,6 @@
                     <button id="delete" class="hollow warning button">Delete</button>
                     <button id="reset" class="hollow alert button">Reset</button>
                 </div>
-
             </div>
 
         </div>
